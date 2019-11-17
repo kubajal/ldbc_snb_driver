@@ -40,6 +40,8 @@ import com.ldbc.driver.workloads.ldbc.snb.bi.LdbcSnbBiQuery24MessagesByTopic;
 import com.ldbc.driver.workloads.ldbc.snb.bi.LdbcSnbBiQuery24MessagesByTopicResult;
 import com.ldbc.driver.workloads.ldbc.snb.bi.LdbcSnbBiQuery25WeightedPaths;
 import com.ldbc.driver.workloads.ldbc.snb.bi.LdbcSnbBiQuery25WeightedPathsResult;
+import com.ldbc.driver.workloads.ldbc.snb.bi.LdbcSnbBiQuery26PersonsPerCountryInContinent;
+import com.ldbc.driver.workloads.ldbc.snb.bi.LdbcSnbBiQuery26PersonsPerCountryInContinentResult;
 import com.ldbc.driver.workloads.ldbc.snb.bi.LdbcSnbBiQuery2TopTags;
 import com.ldbc.driver.workloads.ldbc.snb.bi.LdbcSnbBiQuery2TopTagsResult;
 import com.ldbc.driver.workloads.ldbc.snb.bi.LdbcSnbBiQuery3TagEvolution;
@@ -208,6 +210,7 @@ public class DummyLdbcSnbBiDb extends Db
         registerOperationHandler( LdbcSnbBiQuery23HolidayDestinations.class, LdbcQuery23Handler.class );
         registerOperationHandler( LdbcSnbBiQuery24MessagesByTopic.class, LdbcQuery24Handler.class );
         registerOperationHandler( LdbcSnbBiQuery25WeightedPaths.class, LdbcQuery25Handler.class );
+        registerOperationHandler( LdbcSnbBiQuery26PersonsPerCountryInContinent.class, LdbcQuery26Handler.class );
     }
 
     @Override
@@ -635,6 +638,23 @@ public class DummyLdbcSnbBiDb extends Db
         {
             sleep( sleepDurationAsNano );
             resultReporter.report( 0, LDBC_QUERY_25_RESULTS, operation );
+        }
+    }
+
+    private static final List<LdbcSnbBiQuery26PersonsPerCountryInContinentResult> LDBC_QUERY_26_RESULTS =
+            DummyLdbcSnbBiOperationResultSets
+                    .read26Results();
+
+    public static class LdbcQuery26Handler
+            implements OperationHandler<LdbcSnbBiQuery26PersonsPerCountryInContinent, DummyDbConnectionState>
+    {
+        @Override
+        public void executeOperation( LdbcSnbBiQuery26PersonsPerCountryInContinent operation,
+                                      DummyDbConnectionState dbConnectionState,
+                                      ResultReporter resultReporter ) throws DbException
+        {
+            sleep( sleepDurationAsNano );
+            resultReporter.report( 0, LDBC_QUERY_26_RESULTS, operation );
         }
     }
 }

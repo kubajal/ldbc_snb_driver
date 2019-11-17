@@ -1008,4 +1008,36 @@ public class BiReadEventStreamReadersTest
         assertTrue( reader.hasNext() );
     }
 
+    @Test
+    public void shouldParseAllQuery26Events() throws IOException, ParseException, WorkloadException
+    {
+        // Given
+        String data = BiReadEventStreamReadersTestData.QUERY_26_CSV_ROWS();
+        System.out.println( data + "\n" );
+        BiQuery26EventStreamReader reader = new BiQuery26EventStreamReader(
+                new ByteArrayInputStream( data.getBytes( Charsets.UTF_8 ) ),
+                LdbcSnbBiWorkload.CHAR_SEEKER_PARAMS,
+                GENERATOR_FACTORY
+        );
+
+        // When
+
+        // Then
+        LdbcSnbBiQuery26PersonsPerCountryInContinent operation;
+
+        operation = (LdbcSnbBiQuery26PersonsPerCountryInContinent) reader.next();
+        assertThat( operation.continentName(), is( "Europe" ) );
+        OperationTest.assertCorrectParameterMap(operation);
+
+        operation = (LdbcSnbBiQuery26PersonsPerCountryInContinent) reader.next();
+        assertThat( operation.continentName(), is( "Asia" ) );
+
+        // loops back around to first
+
+        operation = (LdbcSnbBiQuery26PersonsPerCountryInContinent) reader.next();
+        assertThat( operation.continentName(), is( "Europe" ) );
+
+        assertTrue( reader.hasNext() );
+    }
+
 }

@@ -1037,4 +1037,24 @@ public class BiOperationResultEqualityTest
         assertThat( result1a, not( equalTo( result3a ) ) );
         assertThat( result2a, not( equalTo( result3a ) ) );
     }
+
+    @Test
+    public void ldbcQuery26ResultShouldDoEqualsCorrectly()
+    {
+        String countryName1 = "Germany";
+        String countryName2 = "Spain";
+        int personCount1 = 10;
+        int personCount2 = 20;
+
+        LdbcSnbBiQuery26PersonsPerCountryInContinentResult result1a = new LdbcSnbBiQuery26PersonsPerCountryInContinentResult( countryName1, personCount1 );
+        LdbcSnbBiQuery26PersonsPerCountryInContinentResult result1b = new LdbcSnbBiQuery26PersonsPerCountryInContinentResult( countryName1, personCount1 );
+        LdbcSnbBiQuery26PersonsPerCountryInContinentResult result2 = new LdbcSnbBiQuery26PersonsPerCountryInContinentResult( countryName1, personCount2 );
+        LdbcSnbBiQuery26PersonsPerCountryInContinentResult result3 = new LdbcSnbBiQuery26PersonsPerCountryInContinentResult( countryName2, personCount1 );
+        LdbcSnbBiQuery26PersonsPerCountryInContinentResult result4 = new LdbcSnbBiQuery26PersonsPerCountryInContinentResult( countryName2, personCount2 );
+
+        assertThat( result1a, equalTo( result1b ) );
+        assertThat( result1a, not( equalTo( result2 ) ) );
+        assertThat( result1a, not( equalTo( result3 ) ) );
+        assertThat( result1a, not( equalTo( result4 ) ) );
+    }
 }

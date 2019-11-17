@@ -18,6 +18,7 @@ import com.ldbc.driver.workloads.ldbc.snb.bi.LdbcSnbBiQuery22InternationalDialog
 import com.ldbc.driver.workloads.ldbc.snb.bi.LdbcSnbBiQuery23HolidayDestinationsResult;
 import com.ldbc.driver.workloads.ldbc.snb.bi.LdbcSnbBiQuery24MessagesByTopicResult;
 import com.ldbc.driver.workloads.ldbc.snb.bi.LdbcSnbBiQuery25WeightedPathsResult;
+import com.ldbc.driver.workloads.ldbc.snb.bi.LdbcSnbBiQuery26PersonsPerCountryInContinentResult;
 import com.ldbc.driver.workloads.ldbc.snb.bi.LdbcSnbBiQuery2TopTagsResult;
 import com.ldbc.driver.workloads.ldbc.snb.bi.LdbcSnbBiQuery3TagEvolutionResult;
 import com.ldbc.driver.workloads.ldbc.snb.bi.LdbcSnbBiQuery4PopularCountryTopicsResult;
@@ -165,5 +166,10 @@ public class DummyLdbcSnbBiOperationResultInstances
     public static LdbcSnbBiQuery25WeightedPathsResult read25Result()
     {
         return new LdbcSnbBiQuery25WeightedPathsResult( Lists.newArrayList(1L, 2L), 0.5);
+    }
+
+    public static LdbcSnbBiQuery26PersonsPerCountryInContinentResult read26Result()
+    {
+        return new LdbcSnbBiQuery26PersonsPerCountryInContinentResult( "France", 12);
     }
 }

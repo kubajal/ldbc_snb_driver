@@ -721,4 +721,25 @@ public class BiOperationEqualityTest
 
         assertThat( query2a, not( equalTo( query3a ) ) );
     }
+
+    @Test
+    public void ldbcQuery26ShouldDoEqualsCorrectly()
+    {
+        // Given
+        String continentName1 = "Germany";
+        String continentName2 = "Spain";
+
+        // When
+        LdbcSnbBiQuery26PersonsPerCountryInContinent query1a =
+                new LdbcSnbBiQuery26PersonsPerCountryInContinent( continentName1 );
+        LdbcSnbBiQuery26PersonsPerCountryInContinent query1b =
+                new LdbcSnbBiQuery26PersonsPerCountryInContinent( continentName1 );
+        LdbcSnbBiQuery26PersonsPerCountryInContinent query2 =
+                new LdbcSnbBiQuery26PersonsPerCountryInContinent( continentName2 );
+
+        // Then
+        assertThat( query1a, equalTo( query1b ) );
+
+        assertThat( query1a, not( equalTo( query2 ) ) );
+    }
 }

@@ -58,6 +58,7 @@ public class LdbcSnbBiWorkload extends Workload
     private FileInputStream readOperation23FileInputStream;
     private FileInputStream readOperation24FileInputStream;
     private FileInputStream readOperation25FileInputStream;
+    private FileInputStream readOperation26FileInputStream;
 
     // TODO these things should really all be in an instance of LdbcSnbBiWorkloadConfiguration or ...State
     private LdbcSnbBiWorkloadConfiguration.LdbcSnbBiInterleaves interleaves = null;
@@ -195,6 +196,9 @@ public class LdbcSnbBiWorkload extends Workload
             );
             readOperation25FileInputStream = new FileInputStream(
                     new File( parametersDir, LdbcSnbBiWorkloadConfiguration.OPERATION_25_PARAMS_FILENAME )
+            );
+            readOperation26FileInputStream = new FileInputStream(
+                    new File( parametersDir, LdbcSnbBiWorkloadConfiguration.OPERATION_26_PARAMS_FILENAME )
             );
         }
         catch ( FileNotFoundException e )
@@ -771,6 +775,26 @@ public class LdbcSnbBiWorkload extends Workload
             );
         }
 
+        // Query 26
+        if ( enabledOperationTypes.contains( LdbcSnbBiQuery26PersonsPerCountryInContinent.class ) )
+        {
+            BiQuery26EventStreamReader operation26StreamWithoutTimes = new BiQuery26EventStreamReader(
+                    readOperation26FileInputStream,
+                    CHAR_SEEKER_PARAMS,
+                    gf
+            );
+            readOperationFileReaders.add( operation26StreamWithoutTimes );
+            asynchronousNonDependencyStreamsList.add(
+                    gf.assignStartTimes(
+                            gf.incrementing(
+                                    workloadStartTimeAsMilli + interleaves.operation26Interleave,
+                                    interleaves.operation26Interleave
+                            ),
+                            operation26StreamWithoutTimes
+                    )
+            );
+        }
+
         /* **************
          * **************
          * **************
@@ -1104,6 +1128,14 @@ public class LdbcSnbBiWorkload extends Workload
                 operationAsList.add( ldbcQuery.endDate() );
                 return OBJECT_MAPPER.writeValueAsString( operationAsList );
             }
+            case LdbcSnbBiQuery26PersonsPerCountryInContinent.TYPE:
+            {
+                LdbcSnbBiQuery26PersonsPerCountryInContinent ldbcQuery = (LdbcSnbBiQuery26PersonsPerCountryInContinent) operation;
+                List<Object> operationAsList = new ArrayList<>();
+                operationAsList.add( ldbcQuery.getClass().getName() );
+                operationAsList.add( ldbcQuery.continentName() );
+                return OBJECT_MAPPER.writeValueAsString( operationAsList );
+            }
             default:
             {
                 throw new SerializingMarshallingException(
@@ -1314,6 +1346,11 @@ public class LdbcSnbBiWorkload extends Workload
             long startDate = ((Number) operationAsList.get( 3 )).longValue();
             long endDate = ((Number) operationAsList.get( 4 )).longValue();
             return new LdbcSnbBiQuery25WeightedPaths( person1Id, person2Id, startDate, endDate );
+        }
+        else if ( operationClassName.equals( LdbcSnbBiQuery26PersonsPerCountryInContinent.class.getName() ) )
+        {
+            String continentName = (String) operationAsList.get( 1 );
+            return new LdbcSnbBiQuery26PersonsPerCountryInContinent( continentName );
         }
         throw new SerializingMarshallingException(
                 format(

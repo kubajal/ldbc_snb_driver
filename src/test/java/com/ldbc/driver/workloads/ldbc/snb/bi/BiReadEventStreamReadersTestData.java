@@ -224,4 +224,11 @@ public class BiReadEventStreamReadersTestData
                + "1|2|1|2\n"
                + "3|4|3|4\n";
     }
+
+    public static final String QUERY_26_CSV_ROWS()
+    {
+        return "continentName\n"
+                + "Europe\n"
+                + "Asia\n";
+    }
 }
